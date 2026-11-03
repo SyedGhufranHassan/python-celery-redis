@@ -1,0 +1,11 @@
+services:
+  worker:
+    build: .
+    command: celery -A worker.celery_app worker --loglevel=info
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      TASK_QUEUE_NAME: image-processing
+      APP_SECRET: local-dev-only
+    depends_on: [redis]
+  redis:
+    image: redis:7-alpine
